@@ -1,0 +1,376 @@
+本Java视频教程基于mybatis-3.1.1录制。
+内容涵盖Mybatis的快速入门、Mybatis基于xml和注解两种方式实现CRUD操作、一对一和一对多的关联表的查询、动态SQL和模糊查询、
+调用存储过程、缓存的使用、集成Spring等Mybatis企业级开发的核心技术。
+
+mybatis提示，dtd文件，xml的开头或者url连接都行
+
+mybatis教程：word开发文档
+1.mybatis的配置文件conf.xml：连接数据库.
+	定义环境为开发模式
+	<configuration>
+	<environments default="development"><!_-开发模式-->
+		<environment id="development">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.jdbc.Driver" />
+				<property name="url" value="jdbc:mysql://localhost:3306/mybatis" />
+				<property name="username" value="root" />
+				<property name="password" value="root" />
+			</dataSource>
+		</environment>
+	</environments>
+</configuration>
+
+2.定义表所对应的实体类javabean，
+/*和表中一样*/
+public class User {
+	private int id;
+	private String name;
+	private int age;
+    //get,set方法
+}
+3.定义操作users表的sql映射文件，userMpper.xml,(手写，也可以生成)
+<!--namespace是唯一的，标准写法是报名+类名 
+	根据ID查询得到一个user对象，尽量不用*，效率慢。
+	#{args}为掺进来的参数,args可以随便写，推荐一致
+	parameterType参数类型是,比如int,
+	resultType结果类型，返回一个对象，利用反射来实现
+-->
+<mapper namespace="com.atguigu.mybatis_test.test1.userMapper"> 
+	<select id="getUser" parameterType="int" 
+		resultType="com.atguigu.mybatis_test.test1.User">
+		select * from users where id=#{id}
+	</select>
+</mapper>
+4.在conf.xml文件中注册userMapper.xml
+<!-- 路径结构，不是包的机构，用/-->
+	<mapper resource=" com/atguigu/ibatis/bean/userMapper.xml"/>
+
+5.编写测试代码，执行定义的select语句
+
+
+6.再dao中调用
+	SqlSession session = sessionFactory.openSession();
+	User user = session.selectOne(URI+".selectUser", id);
+	return user;
+
+
+
+
+
+新建maven项目：
+参考word文档，项目名，->project facets->调各种属性-->
+Damanmic web Model 改为3.0
+JDK由1.5改为1.7,改项目的包，和手动添加包build path一样的效果。
+src/main/resource 专门放配置文件
+阿里巴巴的jar包druid会自动根据连接自动判断引入的数据源
+
+先整合spring和mybatis.
+
+search.maven.org,访问真慢
+测试成功后:
+导入springmvc的jar包
+新建spring-mvc.xml，配置@Controller
+@Controller
+@RequestMapping("/usercontroller")
+public class UserController{
+	@RequestMapping("showUser"){
+	}
+}
+访问路径:localhost:8086/finnesss/usercontroller/showUser.do
+.do在web.xml中配置
+*.do
+
+导入json的包jackson-mapper-asi
+webRoot下的配置
+prefix="/" /就是webroot
+
+文件上传，commons-fileupload
+视频播放：
+controller中的数据放入request当中，需要httpserlvet
+pom.xml导入Java.servlet jar包
+
+点击tomcat，配置路径，编译
+项目右键->mavev install，项目编译一下，才能发布，加入tomcat
+spring-core和其他spring jar包版本一致。
+
+restfull url 不用问号传参 showuser?id=1
+showuser/0.do
+@RequestMapping("showUser/{id}")
+public String showUser(@PathVariable String id,HttpServletRequest request){
+}
+
+查看源码除了下载源码之外，终于想到了插件，一搜，果然有，jad插件jad。
+2014-15-11 15:11:11
+
+c3p0数据源,dbcp数据源，阿里巴巴druid数据源。
+
+<!--  
+新建maven项目：
+参考word文档，项目名，->project facets->调各种属性
+Damanmic web Model 改为3.0
+JDK由1.5改为1.7,改项目的包，和手动添加包build path一样的效果。
+--><!-- 阿里巴巴数据源包，druid -->
+UserMapperImpl
+illegarArgumentExpretion
+AnnotationMetadata注释，
+org.springframework.context.annotation.ConfigurationClassParser.getImports(String, Set<String>, Set<String>)
+AnnotationMetadata metadata = metadataReaderFactory.getMetadataReader(className).getAnnotationMetadata();
+getAnnotationMetadata，Annotation注解,Metadata提取器
+
+
+
+
+第二集：mybatis配置，查所有
+执行的sql语句，要看到执行的sql语句，log4j jar包，
+配置log4j.properties.INFO头，也可以改成DEBUG.
+启动时一大堆扫描，日志。
+private static logger log4j = xxxxx
+logger.info(u);
+
+mybatis引入片段。
+<sql id="xxx">
+	id,xx,
+</sql>
+<select>
+		select <include xxx/>
+</select>
+
+分页查询，查询所有用户自己添加。
+
+我的user和角色不是多对多的关系，如果多对多，
+则User中有一个list<role>
+mybatis中取list还有继承，
+继承resultMap添加了返回值list
+userRoles是entity中的属性，JavaType返回Java对象
+selectUserRole是去找名字为这个的角色查询，column是入参
+(即是selectUserRole中的 parameterType)。
+先声明，在调用
+<select id="selectUserRole" parameterType="java.lang.String" resultType="sy.model.UserRole">
+		SELECT
+		tuser_trole.ID,
+		tuser_trole.ROLE_ID,
+		tuser_trole.USER_ID
+		FROM
+		tuser_trole
+		where tuser_trole.user_id=#{id,jdbcType=VARCHAR}
+</select>
+<resultMap type="sy.model.User" id="userResultMap" extends="BaseResultMap">
+	<collection property="userRoles" column="ID" javaType="list" select="selectUserRole" />
+</resultMap>
+
+查看json的格式化工具,JSON Viewer,不过editplus有json语言，只需选择之后点格式化。
+
+N+1查询，用一条sql搞定,联合查询(2张表查询).ofTyp是javaType list中的对象。
+然后添加UserRole中的属性。property(id,roleId)是实体类UserRole中的属性，column是查询是起的别名(下面select中的别名)
+<resultMap type="sy.model.User" id="userResultMap2" extends="BaseResultMap">
+	<collection property="userRoles" javaType="list" ofType="sy.model.UserRole">
+		<id property="id" column="userrole_id" />
+		<result property="roleId" column="role_id"  />
+		<result property="userId" column="user_id" />
+	</collection>
+</resultMap>
+<select id="getAll2" resultMap="userResultMap2">
+		SELECT
+		tuser.ID,
+		tuser.CREATEDATETIME,
+		tuser.MODIFYDATETIME,
+		tuser.`NAME`,
+		tuser.PWD,
+		tuser.CREATE_TIME,
+		tuser.UPDATE_TIME,
+		tuser_trole.ID userrole_id,
+		tuser_trole.ROLE_ID role_id,
+		tuser_trole.USER_ID user_id
+		FROM
+		tuser
+		JOIN tuser_trole ON tuser.ID = tuser_trole.USER_ID
+</select>
+
+显示角色名：三张表联合,association,改造UserRole,中间表添加一个Private Role role;对象
+role和中间表中的属性一样。javaType是对象不是list了。 55555555555555555555
+<resultMap type="sy.model.User" id="userResultMap3" extends="BaseResultMap">
+		<collection property="userRoles" javaType="list" ofType="sy.model.UserRole">
+			<id property="id" column="userrole_id" />
+			<result column="role_id" property="roleId" />
+			<result property="userId" column="user_id" />
+
+			<association property="role" javaType="sy.model.Role">
+				<id property="id" column="role_id" />
+				<result property="text" column="role_text" />
+			</association>
+		</collection>
+	</resultMap>
+	<select id="getAll3" resultMap="userResultMap3">
+		SELECT
+		tuser.ID,
+		tuser.CREATEDATETIME,
+		tuser.MODIFYDATETIME,
+		tuser.`NAME`,
+		tuser.PWD,
+		tuser.CREATE_TIME,
+		tuser.UPDATE_TIME,
+		tuser_trole.ID userrole_id,
+		tuser_trole.ROLE_ID role_id,
+		tuser_trole.USER_ID user_id,
+		trole.ID role_id,
+		trole.TEXT role_text
+		FROM
+		tuser
+		JOIN tuser_trole ON tuser.ID = tuser_trole.USER_ID
+		JOIN trole ON tuser_trole.ROLE_ID = trole.ID
+	</select>
+导入maven项目
+第1步:Maven install	
+第2步:项目->project->clean->选第二个。clean，没问题。
+第3步：Maven install	
+
+第三集：3表关联查询，不要中间表，直接用用户关联角色
+中间表透明化了，用这种方式。
+User private List<Role> roles;
+dao List<User> getAll4();
+映射文件，resultType和resultMap任选其一，resultType返回的是list或者map.
+<resultMap type="sy.model.User" id="userResultMap4" extends="BaseResultMap">
+		<collection property="roles" javaType="list" ofType="sy.model.Role">
+			<id property="id" column="role_id" />
+			<result column="text" property="role_text" />
+		</collection>
+	</resultMap>
+<select id="getAll4" resultMap="userResultMap4">
+SELECT
+		tuser.ID,
+		tuser.CREATEDATETIME,
+		tuser.MODIFYDATETIME,
+		tuser.`NAME`,
+		tuser.PWD,
+		tuser.CREATE_TIME,
+		tuser.UPDATE_TIME,
+		tuser_trole.ID userrole_id,
+		tuser_trole.ROLE_ID role_id,
+		tuser_trole.USER_ID user_id,
+		trole.ID role_id,
+		trole.TEXT role_text
+		FROM
+		tuser
+		JOIN tuser_trole ON tuser.ID = tuser_trole.USER_ID 
+		JOIN trole ON tuser_trole.ROLE_ID = trole.ID
+</select>
+classpath:java/lang/annotation/Target.class
+
+
+我解释一下(* com.z2sci.soa.manager.*.*(..))中几个通配符的含义： 
+|第一个 * —— 通配 任意返回值类型| 
+|第二个 * —— 通配 包com.z2sci.soa.manager下的任意class| 
+|第三个 * —— 通配 包com.z2sci.soa.manager下的任意class的任意方法| 
+|第四个 .. —— 通配 方法可以有0个或多个参数
+
+* com.fitness.service..*Impl.*(..)
+java.IllegaArgumentException,Maven项目
+
+视频上传例子：
+http://www.cnblogs.com/dennisit/archive/2013/02/16/2913287.html
+又遇到jsp报错的情况，servlet.jsp ,把maven中配置的servlet删除，然后
+假如tomcat的lib，有servlet和JSP.jar
+tomcat目录中找到两个jar包加入Java Build Path:
+解决这个异常需要加入：jsp-api.jar在tomcat安装目录的libs中有、
+同样如果servlet异常需要加入servlet-api.jar tomcat也有的。
+
+jsp:include中不能用绝对路径
+
+    <!--   <div class="nav">
+        <div class="logo"></div>
+          <div class="nav1">
+             <ul>
+               <li><a href="index.html">首页</a></li>
+               <li ><a href="vedio-new.html">健身视频</a></li>
+               <li><a href="book.html">健身教材</a></li>
+               <li style="width:102px;height:42px;border-bottom:4px solid #00ffff"><a href="teacher.html">名师指点</a></li>
+               <li><a href="talk.html">讨论社区</a></li>
+               <li><a href="course.html">订制课程</a></li>
+               <li><a href="aboutus.html">关于我们</a></li>
+            </ul>
+          </div>
+    </div>
+    
+    
+    <div class="login"><a href="#">登录</a>丨<a href="#">注册</a></div>-->
+	userlogin.do
+
+json没数据的问题		
+http://blog.csdn.net/lindonglian/article/details/50413772
+	
+http://lib.csdn.net/base/hadoop大数据知识网站。
+https://www.v2ex.com/t/224315 个人博客网站，Spring MVC + Spring Data JPA，Hibernate + MySQL，Spring Data Redis 用于缓存文章
+回去下载百度云上的release程序，看看。200M,有点大
+前台用php，html5,css3写，后台用java写。
+
+
+
+Provided Dependencies  提供依赖项
+Compile Dependencies 编译依赖关系
+一直不知道怎么配置环境，都是抄别人的。
+查看spring支持的版本：
+http://mvnrepository.com/artifact/org.springframework/spring-webmvc/3.2.0.RELEASE
+	
+http://blog.csdn.net/a355586533/article/details/51927045	
+
+mybatis分页。mybatis教程,自己写分页，通用的是用mybatis分页插件
+http://www.yihaomen.com/article/java/302.htm
+
+<!-- ${requestScope}操作的是request的作用域，相当于request.getAttribute();不过EL比这个更智能些，它不用强制类型转换就可以拿到了真实对象的值。 -->
+
+mybatis一对一关联，一对多关联，
+多对多关联是咋回事(利用中间表)? 配置?
+
+a标签访问Controller传参数的两种方式:
+1.用@RequestParam("newsId")接收参数
+友好型:	<td><a href="news/newsdetail.do?newsId=${news.newsId}">详情</a></td>
+@RequestMapping(value="/newsdetail",method=RequestMethod.GET)
+	public String newsdetail(@RequestParam("newsId") String newsId,Map<String,Object> map){
+		News news = newsservice.getNewsBynewsId(newsId);
+		map.put("news", news);
+		return "/jsp/newsdetail";
+	}
+2.用@PathVariable("newsId")接收参数
+@RequestMapping(value="/newsdetail/{newsId}",method=RequestMethod.GET)
+	public String newsdetail(@PathVariable("newsId") String newsId,Map<String,Object> map){
+		
+
+public ModelAndView handleRequest(@RequestParam("key1") String key1,@RequestParam String key2) throws Exception {  
+           ModelAndView mv = new ModelAndView();
+           mv.addObject("key1", key1);
+           mv.addObject("key2", key2);
+           mv.setViewName("login/login.jsp");  
+           return mv;  
+    }
+
+
+BillRecord	
+Executors(线程池)
+线程池网站：http://blog.csdn.net/coding_or_coded/article/details/6856014
+QQ是如何通过局域网到局域网连接的。	
+http://blog.csdn.net/fwj380891124/article/details/7823861/	
+
+C:\Users\gao\Documents\Tencent Files\541514716\FileRecv\Express/PDF/1008825-170411_170705.pdf
+
+C:\Users\gao\Documents\Tencent Files\541514716\FileRecv\Express\PDF\1008825-170411_170705.pdf (系统找不到指定的路径。)
+
+jstl标签有时间标签fmt
+
+http://www.yiibai.com/jstl/jstl_format_formatdate_tag.html
+jstl时间格式标签.
+
+mybatis序列	
+http://blog.csdn.net/u011439839/article/details/52346034
+mysql创建序列
+http://www.jb51.net/article/76124.htm
+
+
+
+
+
+
+
+
+
+
