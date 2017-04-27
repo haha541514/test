@@ -367,10 +367,143 @@ http://www.jb51.net/article/76124.htm
 
 
 
+练手项目:Java高并发秒杀系统API
+https://github.com/codingXiaxw/seckill
+Shiro框架：为什么要用Shiro？http://blog.csdn.net/xiaoxian8023/article/details/17892041
+虽然目前有其他安全框架，比如 JAAS，spring Security，但是仍有令人信服的理由让你选择Shiro：
+     
+
+任务1:
+输入金额的判断，如果有,如果有.,这些都不会。
+还有数据格式化输入，每三位输入有一个,
+任务2：了解日子文件的区别，还有配置日子文件的属性文件log4j.properties
+Log4j,log4J-api,slf4j-api,slf4j-log4j12-1.5.11.jar.
 
 
+作者：有雨
+链接：https://www.zhihu.com/question/23645117/answer/129505434
+来源：知乎
+著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+
+关于分布式?
+分布式，一来就直接看书，除非你有比较深厚的技术功底，要不还是很晦涩难懂的。   先想想为什么会有分布式，分布式怎么来的。传统的电信、银行业，当业务量大了之后，普通服务器CPU/IO/网络到了100%，请求太慢怎么办？最直接的做法，升级硬件，反正也不缺钱，IBM小型机，大型机，采购了堆硬件。但是互联网不能这么干，互联网没有那么财大气粗，还有很多初创，能不能赚钱还不知道。所以就有了软件方面的解决方案：分布式系统，简单说，就是一台服务器不行，我用两台、10台、100台...这就要软件系统需要支持。  那么软件设计者就需要考虑了，那么多台机器，我如何让他们协同工作，这就需要一个调度中心（或注册中心）；肯定涉及到机器间通信，那么需要一个高效的RPC框架；一个请求过来了，如何分发，需要一个请求分发系统（负载均衡）；然后还要考虑每个角色都不能成为性能瓶颈；还有要能方便的进行横向扩展，还有考虑单节点故障。  这些事你在设计分布式系统需要考虑的问题。笔者现在在互联网行业，说的都是互联网业的方案。比如现在负载均衡用nginx/HA，前者更轻量，后者负载均衡算法更丰富；RPC框架用dubbo（可用当当的dubbox）；用zookeeper中注册中心，所有服务注册在这里。  需要分布式系统，并发量肯定不低，那么有了上面的还是不够的，还需要考虑cache、mq、job、db等方面的问题。cache，现在第三方缓存也比较成熟，redis/memcache等；mq，rabbitmq,kafka等等也不错；job，现在第三方任务框架有elasticjob和tbschedule，或者你用quartz也支持分布式环境下的任务，不过quartz就没有运维工具了。DB，数据库最好在项目前期就考虑好业务拆分，系统拆分后DB对应的垂直拆分，后期可做读写分离，一主多从，甚至多主多从，业界也有了相应的解决方案。  总结一下，楼主要自己了解分布式原理，然后对应着每个功能区找业界内成熟的产品来实时。互联网行业，基本都有开源的产品供你选择。
+
+高并发，分布式，可扩展
+https://www.zhihu.com/question/22988790
+
+优惠券发放接口调优实战
+接口的开发语言及主要使用的组件如下。
+    Java 1.7
+    Sping 及 Sping MVC 3.2.4
+    Mybatis 3.3.0
+    Redis aliyun KV
+    Mysql aliyun 
+测试用机器： 阿里云4核16G有云服务器
 
 
+还有一本《构建高性能web站点》吧，这本虽然用的是php，但是你知道架构这东西从来都不是只有一门语言在战斗，内容相对较全，不过都是基础的，可作为入门学习。题主的问题也是一直困扰我的问题。毕竟淘宝这样的大型网站始终只在少数，淘宝的员工在整个行业中的比例也很低，也就是说80%的人接触不到整个量级，而互联网的特征就是这样，脱离了量级，一文不值，一个网站，普通大学生亦可做一个。在加上近年来，互联网行业好工作的JD都写着要求高并发、大数据、分布式、高性能这些字眼，让人看了真是非常非常忧桑，工作中的量级连人家服务器的零头都不到，上哪弄这样的经验？！
+
+answer表重新设计
+<!-- 查询所有回帖 -->
+   <select id="getAllBBSAnswerByid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from tb_bbsanswer
+    where bbsAnswer_bbsid = #{bbsanswerBbsid,jdbcType=INTEGER}
+  </select>
+  <!-- 删除回帖 -->
+   <delete id="deleteBybbsanswerBbsid" parameterType="java.lang.String" >
+    delete from tb_bbsanswer
+    where answer_id = #{answerid,jdbcType=INTEGER}
+  </delete>
+  
+  	<resultMap type="com.fitness.entity.BBSAnswer" id="BaseResultMap2" extends="BaseResultMap">
+  		<association property="operator" javaType="com.fitness.entity.Operator" >
+            <id property="opCode" column="opCode" />
+            <result property="opName" column="opName" />        
+        </association>  
+ 	</resultMap>
+ 	<!-- #bbsanswerBbsid是dao中的参数相同，方法名也是和dao中相同 -->
+   <select id="getAllBBSAnswerByid2" resultMap="BaseResultMap2" parameterType="java.lang.Integer" >
+    select 
+ 	answer_id,bbsAnswer_id, bbsAnswer_bbsid, bbsAnswer_content, bbsAnswer_sendTime, bbsAnswer_face,   
+ 	t_op_operator.op_code opCode,
+   	t_op_operator.op_name opName 
+    from tb_bbsanswer
+    join t_op_operator on tb_bbsanswer.bbsAnswer_id  = t_op_operator.op_code
+    where tb_bbsanswer.bbsAnswer_bbsid = #{bbsanswerBbsid,jdbcType=INTEGER} 
+    order by bbsAnswer_sendTime DESC
+  </select>
+  <td>应收费用</td>
+<td><s:property value="#salebean.Totalpricevalue"/></td>
 
 
+上传视频到优酷然后播放：
+http://jingyan.baidu.com/article/0bc808fc494ba01bd485b90b.html
+如：用爱奇艺播放：
+<iframe src="http://www.iqiyi.com/kszt/mi0408wq.html" scrolling="no" allowfullscreen="allowfullscreen" frameborder="0" height="100%" width="100%"></iframe>
 
+网页中播放视频
+https://zhidao.baidu.com/question/97303297.html
+在网页中播放视频的方法，在HTML5以前比较复杂，具体可以通过如下代码实现：
+<object align="middle" classid="CLSID:22d6f312-b0f6-11d0-94ab-0080c74c7e95" class="OBJECT" id="MediaPlayer" width="332" height="68">
+  <param NAME="AUTOSTART" VALUE="true">
+  <param name="ShowStatusBar" value="-1">
+  <param name="Filename" value="视频地址(非swf或flv)"><embed type="application/x-oleobject" codebase="http://activex.microsoft.com/activex/controls/mplayer/en/nsmp2inf.cab#Version=5,1,52,701" flename="mp" src="重复视频地址" width="100%" height="100%">
+</object>
+而自从HTML5标准出来之后，在页面上播放视频就相对很简单了，实现代码如下：
+  <video id="video1" width="420" style="margin-top:15px;">
+    <source src="/mp4格式视频地址" type="video/mp4" />
+    <source src="/ogg格式视频地址" type="video/ogg" />
+    Your browser does not support HTML5 video.//如果浏览器不支持html5，则显示这一句话
+  </video>
+
+  
+html5是html标准，属于w3c，是html标准的延伸，所有浏览器展示页面基本都是html的  
+而jsp是属于java Web的技术，他其实是在servlet里面输出了html文本，在前端显示。就是说，你在后台写的jsp页面，其实在编译的时候变成了servlet，前端显示的页面是servlet输出的html页面，你看到的jsp其实根本还是html页面。
+　　所以，jsp输出的页面是html5还是html4是可以自由选择的，jsp应该算是转化后台数据至前台页面的中间件，不能算是完全的前端技术。
+
+http://v.youku.com/v_show/id_XMjcyMjAwNzM2MA==.html
+
+
+这段时间经常看到开发者在反复询问同一个问题，为什么通过设置src属性，不能播放本地的媒体文件？例如video.src=”D:\test.mp4”。
+这是因为浏览器中的JavaScript不能直接直接访问本地资源（例如文件系统，摄像头，麦克风等），除非事先得到了用户的允许。浏览器之所以进行该限制也是很有必要的，试想一下，如果JavaScript能够肆无忌惮的访问本地的文件系统，那么窃取用户隐私数据就变得轻而易举了，当用户访问网络上的某个网页时，不知不觉中自己机器上保存的信用卡卡号，密码，公司的秘密文件等隐私文件或许已经被恶意的JavaScript程序上传到了远方的服务器上，这对用户来说是不可容忍的。
+
+我只是想说明你的文件无论是视频文件还是视频流都得是服务器上面的，使用浏览器的用户的磁盘你是读取不到的。 
+
+nginx反向代理服务器
+http://blog.csdn.net/hejingyuan6/article/details/47211221
+正向代理与反向代理的介绍?
+https://hacpai.com/article/1381403388981
+
+
+继承RemoteServlet，调用父类构造方法，实例化ServerConfig.getInstance()配置文件.
+public RemoteServlet() {
+		if (s_objServerListConfig == null) {
+			ServerConfig objServerConfig = ServerConfig.getInstance();
+			s_objServerListConfig = objServerConfig.getServerList();
+		}
+	}
+	
+// 通过文件输入流装载配置文件
+// 获得XML文件根元素
+Element objRootElement = XMLExplorer.getXMLRoot(objIS);
+parseSelf(objRootElement);
+print();
+	
+	
+黑客派:本社区使用开源项目 Symphony 搭建，请大家给颗星！
+Linux+tomcat+
+黑客派源代码:https://github.com/b3log/symphony/
+
+	
+叫虬枝剑法，现在改名叫寒梅剑法
+经脉看有没有逆脉，有几条逆脉216，越多越好。然后是隐脉，一条阳一条阴，有没有180。血量到不到30000，内防每个是不是1000左右
+
+黑客派23种常用设计模式:	(有代码，有项目)
+https://hacpai.com/article/1490776794433
+企业级项目实战 (带源码) 地址 **(jeecms,又是这个)	
+http://zz563143188.iteye.com/blog/1825168
+	
+	
+	
