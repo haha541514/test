@@ -1,0 +1,236 @@
+
+有道翻译挺人性化的，符合汉语习惯。
+上述有些说法很对。如戒之在得的说法。我感到学语法在你会讲一口英语以前没有什么用处，除非你先学了语法以后再学的汉语。
+为什么学英语要学语法，死扣语法不对，生活中没用到。有些细节翻译得很到位，有些细节不怎么样。具体语境具体翻译，
+第一步：
+
+Create a branch
+When you're working on a project（着手去做一个项目）, you're going to have a bunch of different features(功能) 
+or ideas in progress at any given time(在一个限定时间) – some of which are ready to go, and others which are not. 
+Branching exists to help you manage this workflow.
+
+When you create a branch in your project, you're creating an environment where you can try out new ideas(尝试新的想法). 
+Changes you make(changes that you make,省略了一个that) on a branch don't affect the master branch(master branch主分支),
+so you're free to experiment() and commit changes, safe in the knowledge that your branch won't be 
+merged until it's ready to be reviewed by someone you're collaborating with.
+
+ProTip
+Branching is a core concept in Git, and the entire GitHub Flow is based upon it. There's only one rule: 
+anything in the master branch is always deployable.
+
+Because of this, it's extremely important that your new branch is created off of master when working on 
+a feature or a fix. Your branch name should be descriptive (e.g., refactor-authentication, user-content-cache-key, 
+make-retina-avatars), so that others can see what is being worked on.
+
+
+创建一个分支
+当你着手做一个项目时,你会有很多不同的功能或思想进步在任何给定的时间——其中一些是准备好了,
+和其他人没有。分支的存在是为了帮助您管理这个工作流。
+
+当你在项目中创建一个分支,你正在创造一个环境,你可以尝试新的想法。您所作的改变在一根树枝上不会影响主分支,
+所以你自由实验和提交修改,安全的知识,你的分支合并不会直到有人准备好了和你合作。
+
+ProTip
+
+在Git分支是一个核心概念,整个GitHub流是基于它。只有一个规则:任何在主分支总是部署。
+
+由于这个原因,它是非常重要的,你的新分支的创建主当工作在一个功能或修复。你的分支名字应该描述(如。,user-content-cache-key refactor-authentication make-retina-avatars),以便其他人可以看到正在工作。
+
+
+第二步：
+Add commits
+Once your branch has been created, it's time to start making changes. Whenever you add, edit, 
+or delete a file, you're making a commit, and adding them to your branch. This process of adding 
+commits keeps track of your progress as you work on a feature branch.
+
+Commits also create a transparent history of your work that others can follow to understand what 
+you've done and why. Each commit has an associated commit message, which is a description explaining 
+why a particular change was made. Furthermore, each commit is considered a separate unit of change. 
+This lets you roll back changes if a bug is found, or if you decide to head in a different direction.
+ProTip
+
+Commit messages are important, especially since Git tracks your changes and then(然后) displays them 
+as commits once they're pushed to the server(提交一次并推送到服务器). By writing clear commit messages, you can make it easier 
+for other people to follow along and provide(提供) feedback(反馈).
+
+添加提交
+一旦你的分支已经创建,是时候开始做出改变。当你添加、编辑或删除一个文件,
+你正在make a commit,并将它们添加到你的branch。
+这个过程的添加commit跟踪你的进展一个特性分支上工作。
+提交还创建一个透明的工作历史,别人可以理解你所做的和为什么。每个提交(commit)都有一个关联的提交消息,这是一个描述解释为什么一个特定的更改。此外,每个提交被认为是一个单独的单位变化。
+这允许您回滚更改如果找到一个缺陷,或者如果你决定在一个不同的方向。
+ProTip
+提交信息非常重要,特别是Git跟踪您的更改,然后将它们显示他们推到服务器提交一次。通过写清楚提交信息,你可以让别人更容易跟随,并提供反馈。
+
+
+
+第三步：
+Open a Pull Request
+Pull Requests initiate(把请求发起) discussion about your commits. Because they're tightly integrated(不可分割的整体) 
+with the underlying(底层的) Git repository, anyone can see exactly(精确地) what changes would be merged if they accept your request.
+You can open a Pull Request at any point during the development process: when you have little or no code 
+but want to share some screenshots(截图) or general ideas, when you're stuck(卡住) and need help or advice, 
+or when you're ready for someone to review(检查) your work. By using GitHub's @mention system in your Pull Request 
+message, you can ask for feedback from specific people or teams, whether they're down the hall or ten time zones away(ten time zones away在远处).
+
+ProTip
+Pull Requests are useful for contributing to(贡献) open source projects(开源项目) and for managing changes 
+to shared repositories.If you're using a Fork & Pull Model, Pull Requests provide a way to notify(通知)
+project maintainers about the changes you'd like them to consider. If you're using a Shared Repository Model,
+Pull Requests help start code review and conversation about proposed changes before they're merged into 
+the master branch.
+
+
+打开一个拉请求
+把请求发起讨论你的提交。因为他们是紧密集成与底层Git存储库,任何人都可以看到什么变化会合并,如果他们接受你的请求。
+
+您可以打开一个拉请求在发展过程中在任何时候:当你有很少或没有代码但想分享一些截图或一般的想法,
+当你需要帮助或建议,或当你准备有人来检查你的工作。通过使用GitHub @mention系统将请求消息,
+你可以询问反馈具体的人或团队,无论是大厅或十时区(很远的地方)。
+
+ProTip
+拉请求用于参与开源项目和管理变化对共享存储库。如果你使用叉子&拉模型,把请求提供一种方式通知项目维护者
+你想他们考虑的改变。如果你使用一个共享库模型,把请求帮助启动代码审查和讨论提出更改之前他们合并到主分支。
+
+
+Discuss and review your code
+Once a Pull Request has been opened, the person or team reviewing your changes may have questions or comments（建议）.
+Perhaps the coding style doesn't match project guidelines, the change is missing unit tests(没有单元测试), 
+or maybe everything looks great and props（看起来很好很适合） are in order. Pull Requests are designed to encourage and 
+capture this type of conversation.
+
+You can also continue to push to your branch in light of discussion(根绝讨论) and feedback about your commits.
+If someone comments(有人评论) that you forgot to do something or if there is a bug in the code, you can fix it 
+in your branch and push up the change. GitHub will show your new commits and any additional feedback 
+you may receive in the unified Pull Request view.
+
+ProTip
+Pull Request comments(推送批注) are written in Markdown(被写在标签上), so you can embed（嵌入） images and emoji, 
+use pre-formatted text blocks,and other lightweight formatting.
+
+project guidelines：项目指南
+讨论和回顾你的代码
+一旦打开,把请求的人或团队审查您的更改可能有问题或意见。也许编码风格不匹配项目指南,变化是失踪的单元测试,
+或者一切看起来很棒和道具。把请求旨在鼓励和捕捉这种类型的谈话。
+
+你还可以继续推动部门的讨论和反馈你的提交。如果有人评论你忘了做某事或在代码中如果有一个错误,
+你可以安排在你的部门,推动改变。GitHub将展示你的新承诺和任何额外的反馈您可能收到统一把请求中的视图。
+ProTip
+把请求评论都写在减价,所以你可以嵌入图像和emoji,使用预格式化的文本块,和其他轻量级格式。
+
+
+Deploy
+Once your pull request(推送请求) has been reviewed(已经审核) and the branch passes your tests, 
+you can deploy your changes to verify them(验证他们) in production（在生产环境）. If your branch causes issues, 
+you can roll it back by deploying the existing(部署现有的) master into production(投入生产环境).
+
+
+部署
+一旦你把请求审查和分支通过你的测试,你可以在生产部署您的更改来验证它们。
+如果你的分支问题原因,你可以回滚该事务通过部署现有主投入生产。
+
+
+1.安装GitHub
+去GitHub官网上下载GitHub，windows系统的对应下载地址是：http://windows.github.com/，下载后双击安装。
+2.安装Gradle
+从http://www.gradle.org/downloads下载Gradle。下载后将文件解压到指定目录中，例如:D:\gradle-2.7,然后配置环境变量。
+1）根据对应目录创建GRADLE_HOME系统变量，我这里的值为D:\gradle-2.7。
+2）将%GRADLE_HOME%\bin;添加到path中。
+3）测试gradle是否安装成功：打开cmd窗口输入
+gradle -version
+3.下载Spring
+首先打开GitHub,单击快捷菜单中的Git Shell选项，通过cd命令将当前目录转换到保存源码的目录，假设为E:\SpringCode。在该目录下执行以下命令：
+git clone git://github.com/SpringSource/Spring-framework.git
+去E:\SpringCode下查看，发现已经有了相应源码：这里写图片描述
+4.转换成eclipse工程
+
+现在下载的源码并不能直接导入到Eclipse中。下面使用Gradle构建Spring事务部分源码。
+打开cmd窗口，将目录切换到Spring事务部分源码，执行
+gradle cleanIdea eclipse
+回车等待一段时间出现下图说明将Spring源码转换成eclipse工程成功：
+5.导入eclipse
+
+导入至eclipse发现项目名有一个红色的感叹号这里写图片描述
+这是由于该工程还依赖于其他的Spring工程，依次执行第4步，导入至eclipse就可以了
+
+用github下载spring源码：http://blog.csdn.net/u013131533/article/details/48626657
+Git常用命令：http://www.cnblogs.com/cspku/articles/Git_cmds.html
+Git版本控制软件结合GitHub从入门到精通常用命令学习手册：http://www.ihref.com/read-16369.html
+git中文手册：https://git-scm.com/book/zh/v2
+spring版本：http://maven.springframework.org/release/org/springframework/spring-webmvc-portlet/
+github上spingmvc框架羡慕:https://www.zhihu.com/question/35067042
+适合新手的优秀项目：https://github.com/kanwangzjm/funiture
+spring自己写的项目，优秀：https://github.com/spring-io/sagan
+spring源码下载：http://maven.springframework.org/release/org/springframework/spring-webmvc-portlet/
+springmvc源码下载：http://repo.spring.io/release/org/springframework/spring/
+
+
+github使用教程：http://youngxhui.github.io/2016/05/03/GitHub-for-Windows%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B(%E4%B8%80)/
+http://youngxhui.github.io/2016/05/03/GitHub-for-Windows%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B(%E4%B8%80)/
+http://youngxhui.github.io/2016/05/15/GitHub-for-windows%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%EF%BC%88%E4%B8%89%EF%BC%89/
+http://youngxhui.github.io/2016/08/28/GitHub-for-Windows%E4%BD%BF%E7%94%A8%E6%95%99%E7%A8%8B%EF%BC%88%E5%9B%9B%EF%BC%89/
+
+Gradle是一种构建工具,它可以帮你管理项目中的差异,依赖,编译,打包,部署......,
+你可以定义满足自己需要的构建逻辑,写入到build.gradle中供日后复用.
+
+
+
+在 Windows 上安装
+在 Windows 上安装 Git 也有几种安装方法。 官方版本可以在 Git 官方网站下载。 
+打开 http://git-scm.com/download/win，下载会自动开始。 要注意这是一个名为 
+Git for Windows的项目（也叫做 msysGit），和 Git 是分别独立的项目；更多信息请访问 http://msysgit.github.io/。
+另一个简单的方法是安装 GitHub for Windows。 该安装程序包含图形化和命令行版本的 Git。
+它也能支持 Powershell，提供了稳定的凭证缓存和健全的 CRLF 设置。 稍后我们会对这方面有更多了解，现在只要一句话就够了，这些都是你所需要的。 你可以在 GitHub for Windows 网站下载，网址为 http://windows.github.com。
+
+sourceTree,github都是基于git的图形化工具.也可以直接安装git
+
+
+srping 和srpingmvc的区别
+一个是框架一个是框架里的一部分功能。
+　　spring是容器。
+　　springMVC跟struts2差不多的功能，它没有action而是Controller,Controller负责逻辑判断，页面跳转等功能，而且不需要配置像struts2的struts.xml文件。
+
+
+维护自己的repo，思考改进，编码，提交代码，解决issue。
+自己写一个开源项目是最好的学习过程。会有人去关注你的项目，给你贡献代码，和你用代码进行交流。而对于对于自己，你的项目有人关注，会激励自己不断的思考如何做到更好。
+github关注项目有3种形式，watch，star，fork 。
+watch：关注repo，repo每次更新，提交，issue，你都会收到通知提示，全面的了解repo的每次改动。
+star：相当于收藏repo，以后可以在自己star的项目找再次找到它
+fork：把仓库建一个分支给自己，一般fork是为了pull request，给对方贡献代码时候或者研究对方代码时候使用
+
+maven和gradle的区别
+http://www.importnew.com/18008.html
+Java世界中主要有三大构建工具：Ant、Maven和Gradle。经过几年的发展，Ant几乎销声匿迹、Maven也日薄西山，而Gradle的发展则如日中天。笔者有幸见证了Maven的没落和Gradle的兴起。Maven的主要功能主要分为5点，分别是依赖管理系统、多模块构建、一致的项目结构、一致的构建模型和插件机制。我们可以从这五个方面来分析一下Gradle比起Maven的先进之处。
+1.装备（老区大多好像7品玉是最基本的）2.经脉（这个我也不是很懂。毕竟不同套路要不一样的经脉。关注一下正逆各几条216吧）3.兵录（想玩的套路兵录必须满）4.套路（有几个能拿的出手的的套路招式层数和配套宝物等
+
+武侠服是可以直接开通8条经脉的，但是除了本门应对经脉可以直接修炼提升周天，其他的经脉只能修到9周天，这就需要学习其他门派的内功，学到2内20层就可以提升该经脉72周天，可以与朋友换或者购买，夺书也会随机获得。经脉开的越多，周天越高，人物属性就越厉害。
+坐忘功还是有点用的，因为它练满20层也用不了多少修为，加的属性还可以，不过跟门派内功比起来还是鸡肋了一些。
+极乐 如果需要修炼经脉，优先峨眉、武当、唐门，具体哪条经脉，自己点开经脉周天，上面有标明门派内功。
+
+这就是所谓的土豪经脉，现在大家明白为什么土豪经脉霸道了吧,
+土豪经脉--》阳跷脉
+下面是阴翘脉
+八大门派正逆修终极属性图
+6*36=216，216是内功层数。
+
+土豪单经脉，至少需要三个75的江湖内功，双经脉，至少需要5个75的江湖内功，如果两条土豪经脉都开到满层，则需要至少四个75江湖内功加1个86的基层江湖内功（能用的内功也就学到血刀经了）
+
+比如主外功的双经脉，基本是86无望+75残阳（紫霞）+86血刀经（外功一般选血刀经，毒蟾功也行）+75逆天+75冰心（混元），这是最基本的要求。再看看隐脉，只需要门派六内49+隐士63（正式上线后确定是63）。
+隐脉肯定是不如土豪经脉的。六内满层+隐士63，无论是所需要的时间还是花费的资金。都不及一个江湖内功75。如果隐脉的属性超越了土豪经脉，那么对于花几十万几百万的玩家来讲，是不公平的。 但是隐脉肯定又强于逆修经脉，否则就没有开的必要的。 但是想想，没有隐脉的时候，你被一个极限参合大，然后你还差他几千血。而开了隐脉以后，虽然你仍然打不过土豪，但至少你逃生的机会会大大增加。
+最关键的一点。很多人可能没有注意奇珍的问题。隐脉是不是蜗牛真的给平民玩家的福利，关键看奇珍。一条土豪经脉，据说奇珍堆满要三万。恐怕很多单经脉的伪土豪，开得起经脉，吃不满奇珍。 而隐脉的奇珍，现在还不知道吃满需要花费多少资金。如果吃满一条奇珍的条件并不过于苛刻，在我看来万元以内都是能接受的。
+另外一点是隐脉奇珍的属性。 如果一条隐脉+吃满的奇珍，能够达到一条没有吃满奇珍的土豪经脉的效果，那么隐脉就可以说是蜗牛给普通玩家的福利。
+隐脉奇珍也是阉割版土豪脉的奇珍，属性减半，吃起来便宜点。所以对于20亿研修的土豪来说，自己双隐脉的属性差不多是自己双正脉的一半
+真是平民，吃个隐脉奇珍万把块的平民
+门派经脉的奇珍吃满都得几千吧。隐脉奇珍不可能比这个低。而且这个需要看收益。
+
+再算下隐脉的成本。时间，门派六内49两个月够了吧（我自己没修过）。隐士门派63，两个月够了吧（我自己一个半月）。资金，门派六内刚开的就修，估计五千能够吧。隐世门派63成本就需要两个参悟本90块钱。
+
+逆修开了两年了。逆修经脉两个月一条，7条需要14个月，另外一条活动换180。土豪的内功虽然可以点，但是隐士门派的声望不能买。他们一个隐士门派依然要混两个月。
+那么，如果你是一个正常的玩家，你现在只是比神豪落后了两条经脉。如果你是正常玩家，你的逆修经脉可以把普通的土豪玩家（自己修内功，而不是官银演武的）远远地甩在身后了。而现在隐脉，可以说是完全给机会给这些正常玩家拉近与神豪距离的机会。甚至超越一般的小土豪。
+那么嫌门派内功难修，隐士内功难修的。你确实可以A了。如果你是没时间，或者不想投资资金，这都不是事，你可以按照你自己方式玩。但是你既不投资也不想投入精力，但是你又想上天，哪里有这么好的事，说出来让大家都去体验体验。
+
+其实我想很多人喷的原因不是希望用这个打土豪，而是觉得我以为我能养老了你又给我出一堆玩的比上班还累，开要修，然后为了内功点数还要修，还不如那些有等级的游戏，这个游戏越来越累
+
+
+
+
