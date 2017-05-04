@@ -1,0 +1,296 @@
+SpringMVC笔记：
+
+ctrl+T,查找方法被子类重写的方法。
+不断点击之后怎么迅速撤回的？
+界面上市modelAtrrubute= "employee"
+	@RequestMapping(value="/emp", method=RequestMethod.PUT)
+	public String update(Employee employee){//Employee employee获取页面参数增加的时候
+		employeeDao.save(employee);
+		
+		return "redirect:/emps";
+	}
+	@RequestMapping(value="/save", method=RequestMethod.PUT)
+	public String update(Model Model){//Employee employee获取页面参数增加的时候
+		Model.setAttribute("user",new user());向界面发送数据，ModelsetAttribute
+		employeeDao.save(employee);
+		return "redirect:/emps";
+	}
+//id是界面上传的参数,界面上的路径emp/${emp.id}，@PathVariable代表取的是路径上的参数
+	@RequestMapping(value="/emp/{id}", method=RequestMethod.GET)
+	public String input(@PathVariable("id") Integer id, Map<String, Object> map){
+		map.put("employee", employeeDao.get(id));
+		map.put("departments", departmentDao.getDepartments());//向界面发送数据。
+		return "input";
+	}
+	
+springmvc的添加和修改是一样。
+@Controller
+public class EmployeeHandler {
+
+@Controller
+@RequestMapping(value="/user")
+public class EmployeeHandler {
+
+
+所有访问这个类的方法路径都要带/user,和struts的pakege很像。
+不知道为什么添加一直报错，我艹，明明代码都是一样大的。
+第31集，CEUD，
+界面上下拉框一直没有department的值，删除可以，修改可以跳转界面。
+就是department的值没带过去。怎么回事?
+使用springMVC的表单标签。
+
+快速开发界面，spring的表单标签(form标签)
+items可以放一个集合或者一个MAP，
+Email: <form:input path="email"/>,path 可以去到值
+<form :radiobuttons path="gender" items="${genders}"/>
+itemlable,itemvalue<!--items失去值得,path 了? -->
+下拉框
+	<!-- 为什么不能显示departmentName,item发的值放错了，item值能放Map或者集合，所以上面的
+gender要放在request的map中，才能去导致,ItemLable和ItemValue则是遍历对象，显示值和ID -->
+Department: <form:select path="department.id" 
+items="${department }" itemLabel="departmentName" itemValue="id">
+</form:select>
+
+
+
+第32集，处理静态资源，
+优雅的rest风格的资源URL,
+不希望带.html或.do等后缀，若将DispathcherServlet请求映射配置为.
+则Srping MVC将捕获web容器所有请求，包括静态资源请求，SpringMVC会将
+他们当成一个普通请求处理
+解决：MVC:default-servlet-handler,把请求交给了默认的tomcat
+的Defaultservlet(config ,web.xml文件)
+还需要一个配置,MVC:annotation-driven
+
+
+第33集：修改。
+
+
+注解
+@DateTimeFormate(pattern="yyyy-MM-dd")
+private Date birth;
+@NumberFormat(pattern="#,##,###.#")
+private Float salary;
+第38集 
+这些个注解需要添加配置 <mvc:annotation-driven/>
+类型转换出错：BindingResult result
+@RequestMapping(value="/emp",method=RequestMethod.POST)
+public String save(Employee employee,BindingResult result){
+	System.out.println("save:"+employee);
+	if(result.getErrorCount() >0){
+		for(FieldError error:result.getFieldErrors()){//打印错误
+			System.out.println(error.getField()+":"+error.getDefaultMessage());
+		}
+	}
+	employeeDao.save(employee);
+	return "redirect:/emps";
+}
+下节tips:出错消息格式化，查看错误消息
+
+第39集
+数据的校验:
+1.注解
+2.验证出错，
+3.错误消息如何显示，错误消息国际化
+ JSR303是Java Bean验证框架标准
+ Hibernate validate是JSR 303的一个实现参考
+加jar包2个：hibernate-validate-5.0.0.CR2.jar  hibernate-validate-annotation-...
+1.使用hibernate validate验证框架，
+2.在springMVC配置文件中添加<mvc:annotation-driven/>,
+需要在bean属性上添加对应的注释，
+在目标方法bean类型的前面添加@valid 注解
+添加注解:@NotEmpty @Email  @Past
+@NotEmpty
+private Stirng lastName;
+@Email
+private String Email;
+@Past
+@DateTimeFormate(patten="#,###,###,###.#")
+private Foloat salary;45
+
+注解都是一个@大写字母.
+相应的Action也要增加注解@Valid
+@RequestMapping(value="/emp",method=RequestMethod.POST)
+public String save(@ValidEmployee employee,BindingResult result){
+	System.out.println("save:"+employee);
+	if(result.getErrorCount() >0){
+		for(FieldError error:result.getFieldErrors()){//打印错误
+			System.out.println(error.getField()+":"+error.getDefaultMessage());
+		}
+	}
+	employeeDao.save(employee);
+	return "redirect:/emps";
+}
+
+还要删除一个el.jar包。（jar包的问题，很恶心,不知道从何下手）
+BindingResult替换成Erros也可以,
+BindingResult和需要校验的入参之间不能有其他参数.
+
+第40集
+在界面上看到错误消息
+<form:errors path="*"/>
+
+把错误消息放在input输入后面
+<form:input path="birth"/>
+<form:errors path="birth"></form:errors>
+
+错误消息国际化:国际化的资源文件i18n.properties
+NotEmpty.employee.lastName=LastName..... ,自动讲中文转为Ascale
+在springmvc.xml中配置国际化资源文件
+<bean id="messageSource" class="org.springframework.context.support.ReesourceBundleMessageSource" >
+	<property name="basename" value="i18n"></property>
+</bean>
+
+第41集:
+处理json数据.
+$(function(){
+	$('#testJason').click(function(){
+		$.post(url,args,function(data){//返回Json数组
+			for(var i = 0; i< data.length ;i++){
+				var id = data[i].id;
+				var lastName = data[i].lastName;
+			}
+
+		})
+	})
+})	
+<a href="testJason" id="testJson"></a>
+@RequestMapping("/testJason")
+public List<Employee> testJson(){
+	return employDao.getAll();//我去，返回的json数据.
+}
+ 
+ 
+第42集
+springMVC通过HttpMessageConverter<T>转为HttpMessage之后就转为json了
+处理json
+1.加入jar包:
+jackson-annotations-2.2.2.jar
+jackson-core-2.2.2.jar
+jackson-databind-2.2.2.jar
+2.在方法上添加@ResponseBody注解
+@ResponseBody
+@RequestMapping("/getUser")
+public List<User> testAjax(){
+	List<User> userlist = new ArraList<>();
+	userlist.add(new User(1,"a",new Date(),1000));
+	userlist.add(new User(2,"b",new Date(),2000))
+	return userlist;
+}
+
+第43集
+HttpMessageConverter 将请求信息转化并绑定到处理方法的入参 
+或者返回类型转为对应类型的返回信息
+@RequestBody,@ResponseBody
+
+入参RequestBody
+@ResponseBody
+@RequestMapping("/testHttp")
+public  String testHttp(@RequestBody String body){
+	return "helloworld!"+new Date();//注意返回值不同一般
+}
+ 
+ResponseEntity<T>,模拟  下载
+@RequestMapping("/testResponseEntity")
+public ResponseEntity<byte[]> testResponseEntity(HttpSession session){
+byte [] body = null;
+ServletContext servletContext = session.getServletContext();
+InputStream in = servletContext.getResourceAsStream("/file/abc.txt");
+body = new byte[in.avaiable()];
+in.read(body);
+
+HttpHeaders headers = new HttpHeaders();//响应头
+headers.add("Context-Disposition","attachment;filename=abc.txt");//设置响应头
+HttpStatus satusCode = HttpStatus.OK;//响应吗
+
+ResponseEntity<byte[]> response = new ResponseEntity<byte[]>(body,headers,statusCode);
+return response;
+
+} 
+
+第44，45,46集国际化
+	1.在页面上，能够根据浏览器语言设置的情况对文本（不是内容），时间，数值，
+进行本地化处理， 
+	2.可以在bean中获取国际化资源文件Locale对应的消息
+	3.可以通过超链接切换Locale,而不再依赖浏览器的语言设置情况
+解决方法：
+	1.使用JSTL的fmt标签
+	2.在bean中注入ResourceBundelMessage的示例，使其对应的getMessage方法即可
+	3.配置LocalResolver和LocalChangeInterCeptor
+ 
+ 
+新建i18_en_US.properties,i18_zh_CN.properties国际化资源文件
+新建18n.jsp，i18n2.jsp。
+
+配置spring,不通过handerl跳转
+<mvc:view-controller path="/i18n" view-name="i18n"/>
+<mvc:view-controller path="/i18n2" view-name="i18n2"/>
+
+浏览器语言切换,切换的语言都在peoerties配置文件中
+@Autowired
+private ResourceBundleMessageSource messageSource
+
+@RequestMapping("/i18n")
+public String testI18n(Locale locale){
+	String val = messageSource.getMessage("i18n.user",null,locale);
+	System.out.println(val);
+	return "i18n";
+}
+
+3.通过超链接切换locale语言而不再切换浏览器语言
+配置SessionLocalResoleer
+<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+	<property name="basename" value="i18n"></property>
+</bean>
+ 
+配置LocaleChangeInterceptor拦截器
+<mvc:interceptors>
+	<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"></bean>
+</mvc:interceptors>
+ 
+界面上的切换链接,需要加入fmt标签
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<!--显示properties文件中的中文用户名 -->
+<fmt:message key="i18n.user"></fmt:message>
+<a href="i18n?locale=zh_CN">中文</a>
+<a href="i18n?locale=en_US">English</a>
+
+
+第47集文件的上传
+通过MultipartResolver接口实现的
+实现类：CommonsMultipartResovler
+1.加入jar包 ，commons-fileupload(上传的包,依赖于io包),commons-io(io流)，
+2.配置multipartResolver ,
+<bean id="multipartResolver" 
+class="org.springframework.web.mulipart.commons.CommonsMultipartResovler">	
+	<property	name="defaultEncoding" value="UTF-8"/>
+	<property	name="maxUploadSize" value="1024"/>
+</bean>
+3.@MultipartResolver注解
+@RequestMapping("/testFileUpload")
+public String testFileupload(@RequestParam("desc")String desc,
+	@RequestParam("file") MultipartFile file){
+	System.out.println(desc);//String 的desc
+	System.out.println(file.getOriginalFilename());//文件的名字
+	System.out.pringln(file.getInputStream());//文件的输入流
+	return "success";
+} 
+ 
+SpringMVC下个4.0的源码
+ 
+第48集
+新建一个拦截器interceptor,实现接口，HandlerInterceptor
+改第一个方法的返回值。
+实现原理，基本上都可以DisparcherServlet，这个类里面找到调用
+的拦截器(939行遍历拦截器)和配置（946生成ModelAndView）。
+ 
+ 拦截器可以配置作用路径和不作用路径
+ <mvc:mapping path="/emps"/>
+ <mvc:includeamapping 不作用。
+ 
+ 
+ 
+ 
+ 
+ 
+ 
