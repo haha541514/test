@@ -1,0 +1,14 @@
+
+redis安装，
+linux版:http://blog.csdn.net/yingxiake/article/details/51469364
+
+redis也可以是不安装的。redis安装包可以卸载redis.
+redis集群配置:
+http://www.cnblogs.com/tommy-huang/p/6240083.html
+redis闪退，win7需要设置虚拟内存。
+
+设置虚拟内存地址:	http://blog.csdn.net/zhalcie2011/article/details/54581298
+我的redis在D盘，所以设在D盘
+
+win7安装redis及redis Manger的运用
+http://blog.csdn.net/joyhen/article/details/47358999
